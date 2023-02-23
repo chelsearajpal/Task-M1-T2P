@@ -1,0 +1,24 @@
+// Pin definitions
+const int LED_PIN = LED_BUILTIN;
+const int BUTTON_PIN = 2;
+
+// Variables
+volatile bool led_state = LOW;
+
+// Interrupt service routine for the button
+void button_isr() {
+  led_state = !led_state;
+}
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  // Attach the interrupt to the button pin
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), button_isr, CHANGE);
+}
+
+void loop() {
+  digitalWrite(LED_PIN, led_state);
+  delay(100);
+}
